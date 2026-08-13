@@ -90,6 +90,17 @@
             font-size: 17px;
         }
 
+        .latest-version {
+            margin-top: 18px;
+            color: #aaa;
+            font-size: 16px;
+        }
+
+        .latest-version span {
+            color: white;
+            font-weight: bold;
+        }
+
         .main-buttons {
             margin-top: 20px;
         }
@@ -187,6 +198,7 @@
         }
 
         @media (max-width: 650px) {
+
             h1 {
                 font-size: 38px;
             }
@@ -231,7 +243,9 @@
 
     <header>
 
-        <h1>AVRDUDE Calculator</h1>
+        <h1>
+            AVRDUDE Calculator
+        </h1>
 
         <div
             class="subtitle"
@@ -294,6 +308,17 @@
 
             </div>
 
+
+            <!-- NUMER NAJNOWSZEJ WERSJI -->
+
+            <div
+                class="latest-version"
+                id="latestVersion">
+
+                Najnowsza wersja: ...
+
+            </div>
+
         </section>
 
 
@@ -306,7 +331,9 @@
             </h2>
 
             <div id="releases">
+
                 Ładowanie wersji...
+
             </div>
 
         </section>
@@ -315,7 +342,9 @@
 
 
     <footer>
+
         AVRDUDE Calculator © 2026
+
     </footer>
 
 
@@ -349,6 +378,9 @@ const translations = {
 
         downloadSourceLatest:
             "Pobierz najnowszy kod źródłowy",
+
+        latestVersion:
+            "Najnowsza wersja",
 
         releasesTitle:
             "Releases",
@@ -390,6 +422,9 @@ const translations = {
 
         downloadSourceLatest:
             "Download latest source code",
+
+        latestVersion:
+            "Latest version",
 
         releasesTitle:
             "Releases",
@@ -484,13 +519,54 @@ function changeLanguage(language) {
     );
 
 
+    updateLatestVersion();
+
     displayReleases();
 
 }
 
 
 /*
-    ŁADOWANIE JSON
+    AKTUALIZACJA NUMERU WERSJI
+*/
+
+function updateLatestVersion() {
+
+    if (!releasesData.length) {
+        return;
+    }
+
+    const latest =
+        releasesData[
+            releasesData.length - 1
+        ];
+
+    const t =
+        translations[
+            currentLanguage
+        ];
+
+    document.getElementById(
+        "latestVersion"
+    ).innerHTML =
+
+        escapeHTML(
+            t.latestVersion
+        ) +
+
+        ': <span>' +
+
+        escapeHTML(
+            latest.version
+        ) +
+
+        '</span>';
+
+}
+
+
+/*
+    ŁADOWANIE RELEASES.JSON
 */
 
 async function loadReleases() {
@@ -531,7 +607,7 @@ async function loadReleases() {
 
 
             /*
-                INSTALATOR NAJNOWSZEJ WERSJI
+                NAJNOWSZY INSTALATOR
             */
 
             document.getElementById(
@@ -541,13 +617,20 @@ async function loadReleases() {
 
 
             /*
-                KOD ŹRÓDŁOWY NAJNOWSZEJ WERSJI
+                NAJNOWSZY KOD ŹRÓDŁOWY
             */
 
             document.getElementById(
                 "mainSource"
             ).href =
                 latest.source;
+
+
+            /*
+                NUMER WERSJI
+            */
+
+            updateLatestVersion();
 
         }
 
@@ -627,8 +710,8 @@ function displayReleases() {
 
 
             /*
-                OSTATNIA WERSJA
-                = NAJNOWSZA
+                OSTATNI ELEMENT
+                = NAJNOWSZA WERSJA
             */
 
             let latest = "";
@@ -651,7 +734,7 @@ function displayReleases() {
 
 
             /*
-                OPIS W ODPOWIEDNIM JĘZYKU
+                OPIS
             */
 
             const description =
@@ -662,6 +745,10 @@ function displayReleases() {
 
                     : release.description_en;
 
+
+            /*
+                RELEASE
+            */
 
             div.innerHTML = `
 
