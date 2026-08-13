@@ -11,10 +11,6 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
@@ -30,7 +26,6 @@
         h1 {
             margin: 0;
             font-size: 52px;
-            font-weight: 700;
         }
 
         .subtitle {
@@ -61,12 +56,11 @@
         }
 
         .language button.active {
-            background: #fff;
+            background: white;
             color: #111;
         }
 
         .container {
-            width: 100%;
             max-width: 900px;
             margin: auto;
             padding: 20px;
@@ -78,7 +72,6 @@
             border-radius: 18px;
             padding: 35px;
             margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         h2 {
@@ -92,21 +85,39 @@
             font-size: 17px;
         }
 
-        .download-main {
-            display: inline-block;
+        .main-buttons {
             margin-top: 20px;
+        }
+
+        .download-main,
+        .source-main {
+            display: inline-block;
             padding: 15px 28px;
-            background: white;
-            color: #111;
-            text-decoration: none;
             border-radius: 10px;
             font-size: 17px;
             font-weight: bold;
+            text-decoration: none;
             transition: 0.2s;
         }
 
-        .download-main:hover {
+        .download-main {
+            background: white;
+            color: #111;
+        }
+
+        .source-main {
+            margin-left: 8px;
+            border: 1px solid #444;
+            color: white;
+        }
+
+        .download-main:hover,
+        .source-main:hover {
             transform: translateY(-2px);
+        }
+
+        .source-main:hover {
+            background: #22252c;
         }
 
         .release {
@@ -115,10 +126,6 @@
             border-radius: 14px;
             padding: 22px;
             margin-top: 16px;
-        }
-
-        .release:first-child {
-            border-color: #444;
         }
 
         .latest {
@@ -158,7 +165,6 @@
             border-radius: 8px;
             color: white;
             text-decoration: none;
-            transition: 0.2s;
         }
 
         .release-buttons a:hover {
@@ -167,7 +173,6 @@
 
         .empty {
             color: #888;
-            padding: 10px 0;
         }
 
         footer {
@@ -176,7 +181,7 @@
             padding: 40px 20px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 650px) {
             h1 {
                 font-size: 38px;
             }
@@ -185,9 +190,12 @@
                 padding: 25px;
             }
 
-            .language {
-                top: 10px;
-                right: 10px;
+            .download-main,
+            .source-main {
+                display: block;
+                width: 100%;
+                margin: 10px 0 0;
+                text-align: center;
             }
         }
     </style>
@@ -195,18 +203,16 @@
 
 <body>
 
-    <!-- JĘZYK -->
     <div class="language">
         <button id="plButton" onclick="changeLanguage('pl')">PL</button>
         <button id="enButton" onclick="changeLanguage('en')">EN</button>
     </div>
 
-    <!-- NAGŁÓWEK -->
     <header>
         <h1>AVRDUDE Calculator</h1>
 
         <div class="subtitle" id="subtitle">
-            Narzędzia dla AVRDUDE, Arduino CLI i ESP
+            Narzędzia dla AVRDUDE i Arduino CLI
         </div>
     </header>
 
@@ -221,21 +227,37 @@
 
             <p class="description" id="aboutText">
                 AVRDUDE Calculator to program pomocniczy do pracy
-                z AVRDUDE, Arduino CLI oraz narzędziami programistycznymi.
+                z AVRDUDE oraz Arduino CLI.
             </p>
 
-            <a
-                id="mainDownload"
-                class="download-main"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer">
+            <div class="main-buttons">
 
-                Pobierz najnowszą wersję
+                <a
+                    id="mainDownload"
+                    class="download-main"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer">
 
-            </a>
+                    Pobierz najnowszą wersję
+
+                </a>
+
+                <a
+                    id="mainSource"
+                    class="source-main"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
+                    Pobierz kod źródłowy najnowszej wersji
+
+                </a>
+
+            </div>
 
         </section>
+
 
         <!-- RELEASES -->
         <section class="card">
@@ -252,7 +274,7 @@
 
     </main>
 
-    <!-- STOPKA -->
+
     <footer>
         AVRDUDE Calculator © 2026
     </footer>
@@ -260,336 +282,312 @@
 
 <script>
 
-    let currentLanguage = "pl";
-    let releasesData = [];
+let currentLanguage = "pl";
+let releasesData = [];
 
 
-    /*
-     * TEKSTY
-     */
+const translations = {
 
-    const translations = {
+    pl: {
 
-        pl: {
-            subtitle:
-                "Narzędzia dla AVRDUDE, Arduino CLI i ESP",
+        subtitle:
+            "Narzędzia dla AVRDUDE i Arduino CLI",
 
-            aboutTitle:
-                "O programie",
+        aboutTitle:
+            "O programie",
 
-            aboutText:
-                "AVRDUDE Calculator to program pomocniczy do pracy z AVRDUDE, Arduino CLI oraz narzędziami programistycznymi.",
+        aboutText:
+            "AVRDUDE Calculator to program pomocniczy do pracy z AVRDUDE oraz Arduino CLI.",
 
-            downloadLatest:
-                "Pobierz najnowszą wersję",
+        downloadLatest:
+            "Pobierz najnowszą wersję",
 
-            releasesTitle:
-                "Releases",
+        downloadSourceLatest:
+            "Pobierz kod źródłowy najnowszej wersji",
 
-            latest:
-                "NAJNOWSZA WERSJA",
+        releasesTitle:
+            "Releases",
 
-            download:
-                "Pobierz instalator",
+        latest:
+            "NAJNOWSZA WERSJA",
 
-            source:
-                "Kod źródłowy",
+        download:
+            "Pobierz instalator",
 
-            loading:
-                "Ładowanie wersji...",
+        source:
+            "Kod źródłowy",
 
-            noReleases:
-                "Brak dostępnych wersji.",
+        loading:
+            "Ładowanie wersji...",
 
-            releaseDate:
-                "Data wydania"
-        },
+        noReleases:
+            "Brak dostępnych wersji.",
+
+        releaseDate:
+            "Data wydania"
+
+    },
 
 
-        en: {
-            subtitle:
-                "Tools for AVRDUDE, Arduino CLI and ESP",
+    en: {
 
-            aboutTitle:
-                "About",
+        subtitle:
+            "Tools for AVRDUDE and Arduino CLI",
 
-            aboutText:
-                "AVRDUDE Calculator is a utility program for working with AVRDUDE, Arduino CLI and development tools.",
+        aboutTitle:
+            "About",
 
-            downloadLatest:
-                "Download latest version",
+        aboutText:
+            "AVRDUDE Calculator is a utility program for working with AVRDUDE and Arduino CLI.",
 
-            releasesTitle:
-                "Releases",
+        downloadLatest:
+            "Download latest version",
 
-            latest:
-                "LATEST VERSION",
+        downloadSourceLatest:
+            "Download source code of the latest version",
 
-            download:
-                "Download installer",
+        releasesTitle:
+            "Releases",
 
-            source:
-                "Source code",
+        latest:
+            "LATEST VERSION",
 
-            loading:
-                "Loading releases...",
+        download:
+            "Download installer",
 
-            noReleases:
-                "No releases available.",
+        source:
+            "Source code",
 
-            releaseDate:
-                "Release date"
+        loading:
+            "Loading releases...",
+
+        noReleases:
+            "No releases available.",
+
+        releaseDate:
+            "Release date"
+
+    }
+
+};
+
+
+function changeLanguage(language) {
+
+    currentLanguage = language;
+
+    const t = translations[language];
+
+    document.documentElement.lang = language;
+
+    document.getElementById("subtitle").textContent =
+        t.subtitle;
+
+    document.getElementById("aboutTitle").textContent =
+        t.aboutTitle;
+
+    document.getElementById("aboutText").textContent =
+        t.aboutText;
+
+    document.getElementById("mainDownload").textContent =
+        t.downloadLatest;
+
+    document.getElementById("mainSource").textContent =
+        t.downloadSourceLatest;
+
+    document.getElementById("releasesTitle").textContent =
+        t.releasesTitle;
+
+    document.getElementById("plButton")
+        .classList.toggle(
+            "active",
+            language === "pl"
+        );
+
+    document.getElementById("enButton")
+        .classList.toggle(
+            "active",
+            language === "en"
+        );
+
+    displayReleases();
+}
+
+
+async function loadReleases() {
+
+    try {
+
+        const response = await fetch(
+            "releases.json?cache=" + Date.now()
+        );
+
+        if (!response.ok) {
+            throw new Error("Nie można załadować releases.json");
         }
 
-    };
-
-
-    /*
-     * ZMIANA JĘZYKA
-     */
-
-    function changeLanguage(language) {
-
-        currentLanguage = language;
-
-        const t = translations[language];
-
-        document.documentElement.lang = language;
-
-        document.getElementById("subtitle").textContent =
-            t.subtitle;
-
-        document.getElementById("aboutTitle").textContent =
-            t.aboutTitle;
-
-        document.getElementById("aboutText").textContent =
-            t.aboutText;
-
-        document.getElementById("mainDownload").textContent =
-            t.downloadLatest;
-
-        document.getElementById("releasesTitle").textContent =
-            t.releasesTitle;
-
-
-        document.getElementById("plButton")
-            .classList.toggle("active", language === "pl");
-
-        document.getElementById("enButton")
-            .classList.toggle("active", language === "en");
-
+        releasesData = await response.json();
 
         displayReleases();
 
+
+        /*
+         * PIERWSZY ELEMENT = NAJNOWSZA WERSJA
+         */
+
+        if (releasesData.length > 0) {
+
+            document.getElementById("mainDownload").href =
+                releasesData[0].installer;
+
+            document.getElementById("mainSource").href =
+                releasesData[0].source;
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        document.getElementById("releases").innerHTML =
+            '<div class="empty">' +
+            translations[currentLanguage].noReleases +
+            '</div>';
+
+    }
+
+}
+
+
+function displayReleases() {
+
+    const container =
+        document.getElementById("releases");
+
+    const t =
+        translations[currentLanguage];
+
+    container.innerHTML = "";
+
+
+    if (!releasesData.length) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            t.noReleases +
+            '</div>';
+
+        return;
+
     }
 
 
-    /*
-     * POBIERANIE RELEASES.JSON
-     */
+    releasesData.forEach(
+        (release, index) => {
 
-    async function loadReleases() {
+            const div =
+                document.createElement("div");
 
-        try {
-
-            const response = await fetch(
-                "releases.json?cache=" + Date.now()
-            );
-
-            if (!response.ok) {
-                throw new Error(
-                    "Nie można załadować releases.json"
-                );
-            }
-
-            releasesData = await response.json();
+            div.className = "release";
 
 
             /*
-             * Sortowanie:
-             * pierwsza wersja w JSON = najnowsza
+             * TYLKO PIERWSZA WERSJA
+             * DOSTAJE "NAJNOWSZA WERSJA"
              */
 
-            displayReleases();
+            let latest = "";
 
+            if (index === 0) {
 
-            /*
-             * GŁÓWNY PRZYCISK POBIERANIA
-             */
-
-            if (releasesData.length > 0) {
-
-                document.getElementById(
-                    "mainDownload"
-                ).href =
-                    releasesData[0].installer;
+                latest =
+                    '<div class="latest">' +
+                    t.latest +
+                    '</div>';
 
             }
 
+
+            const description =
+                currentLanguage === "pl"
+                    ? release.description_pl
+                    : release.description_en;
+
+
+            div.innerHTML = `
+
+                ${latest}
+
+                <h3>
+                    AVRDUDE Calculator
+                    ${escapeHTML(release.version)}
+                </h3>
+
+                <div class="date">
+                    ${t.releaseDate}:
+                    ${escapeHTML(release.date)}
+                </div>
+
+                <div class="release-description">
+                    ${escapeHTML(description)}
+                </div>
+
+                <div class="release-buttons">
+
+                    <a
+                        href="${escapeAttribute(release.installer)}"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        ${t.download}
+
+                    </a>
+
+                    <a
+                        href="${escapeAttribute(release.source)}"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        ${t.source}
+
+                    </a>
+
+                </div>
+            `;
+
+            container.appendChild(div);
+
         }
+    );
 
-        catch (error) {
+}
 
-            console.error(error);
 
-            document.getElementById(
-                "releases"
-            ).innerHTML =
-                '<div class="empty">' +
-                translations[currentLanguage].noReleases +
-                '</div>';
+function escapeHTML(text) {
 
-        }
+    return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 
-    }
+}
 
 
-    /*
-     * WYŚWIETLANIE RELEASES
-     */
+function escapeAttribute(text) {
 
-    function displayReleases() {
+    return String(text)
+        .replaceAll('"', "%22");
 
-        const container =
-            document.getElementById("releases");
+}
 
-        const t =
-            translations[currentLanguage];
 
+changeLanguage("pl");
 
-        container.innerHTML = "";
-
-
-        if (!releasesData.length) {
-
-            container.innerHTML =
-                '<div class="empty">' +
-                t.noReleases +
-                '</div>';
-
-            return;
-
-        }
-
-
-        releasesData.forEach(
-            (release, index) => {
-
-                const div =
-                    document.createElement("div");
-
-                div.className = "release";
-
-
-                let latest = "";
-
-                if (index === 0) {
-
-                    latest =
-                        '<div class="latest">' +
-                        t.latest +
-                        '</div>';
-
-                }
-
-
-                const description =
-                    currentLanguage === "pl"
-                        ? release.description_pl
-                        : release.description_en;
-
-
-                div.innerHTML = `
-
-                    ${latest}
-
-                    <h3>
-                        AVRDUDE Calculator
-                        ${escapeHTML(release.version)}
-                    </h3>
-
-                    <div class="date">
-                        ${t.releaseDate}:
-                        ${escapeHTML(release.date)}
-                    </div>
-
-                    <div class="release-description">
-                        ${escapeHTML(description)}
-                    </div>
-
-                    <div class="release-buttons">
-
-                        <a
-                            href="${escapeAttribute(release.installer)}"
-                            target="_blank"
-                            rel="noopener noreferrer">
-
-                            ${t.download}
-
-                        </a>
-
-                        <a
-                            href="${escapeAttribute(release.source)}"
-                            target="_blank"
-                            rel="noopener noreferrer">
-
-                            ${t.source}
-
-                        </a>
-
-                    </div>
-
-                `;
-
-
-                container.appendChild(div);
-
-            }
-        );
-
-    }
-
-
-    /*
-     * ZABEZPIECZENIE TEKSTU
-     */
-
-    function escapeHTML(text) {
-
-        return String(text)
-
-            .replaceAll("&", "&amp;")
-
-            .replaceAll("<", "&lt;")
-
-            .replaceAll(">", "&gt;")
-
-            .replaceAll('"', "&quot;")
-
-            .replaceAll("'", "&#039;");
-
-    }
-
-
-    /*
-     * ZABEZPIECZENIE LINKÓW
-     */
-
-    function escapeAttribute(text) {
-
-        return String(text)
-            .replaceAll('"', "%22");
-
-    }
-
-
-    /*
-     * START
-     */
-
-    changeLanguage("pl");
-
-    loadReleases();
+loadReleases();
 
 </script>
 
