@@ -7,112 +7,591 @@
     <title>AVRDUDE Calculator</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: #0f1115;
             color: white;
-            text-align: center;
         }
 
         header {
-            padding: 70px 20px 40px;
+            text-align: center;
+            padding: 80px 20px 50px;
         }
 
         h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: 52px;
+            font-weight: 700;
         }
 
-        .version {
+        .subtitle {
+            margin-top: 12px;
             color: #aaa;
-            font-size: 18px;
+            font-size: 19px;
+        }
+
+        .language {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #191c22;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .language button {
+            border: 0;
+            background: transparent;
+            color: #aaa;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .language button.active {
+            background: #fff;
+            color: #111;
         }
 
         .container {
-            max-width: 700px;
+            width: 100%;
+            max-width: 900px;
             margin: auto;
             padding: 20px;
         }
 
         .card {
             background: #191c22;
-            border-radius: 16px;
+            border: 1px solid #242832;
+            border-radius: 18px;
             padding: 35px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 30px;
         }
 
         .description {
             color: #ccc;
-            line-height: 1.6;
+            line-height: 1.7;
             font-size: 17px;
         }
 
-        .download {
+        .download-main {
             display: inline-block;
-            margin-top: 25px;
-            padding: 15px 30px;
-            background: #ffffff;
+            margin-top: 20px;
+            padding: 15px 28px;
+            background: white;
             color: #111;
             text-decoration: none;
             border-radius: 10px;
-            font-size: 18px;
+            font-size: 17px;
             font-weight: bold;
             transition: 0.2s;
         }
 
-        .download:hover {
-            transform: scale(1.04);
+        .download-main:hover {
+            transform: translateY(-2px);
         }
 
-        .info {
-            margin-top: 25px;
-            color: #999;
+        .release {
+            background: #111318;
+            border: 1px solid #292d36;
+            border-radius: 14px;
+            padding: 22px;
+            margin-top: 16px;
+        }
+
+        .release:first-child {
+            border-color: #444;
+        }
+
+        .latest {
+            display: inline-block;
+            color: #7dd3fc;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .release h3 {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .date {
+            color: #777;
             font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .release-description {
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .release-buttons {
+            margin-top: 18px;
+        }
+
+        .release-buttons a {
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 8px;
+            padding: 10px 15px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .release-buttons a:hover {
+            background: #22252c;
+        }
+
+        .empty {
+            color: #888;
+            padding: 10px 0;
         }
 
         footer {
-            margin-top: 60px;
-            padding: 25px;
+            text-align: center;
             color: #777;
-            font-size: 14px;
+            padding: 40px 20px;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 38px;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .language {
+                top: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
 
 <body>
 
+    <!-- JĘZYK -->
+    <div class="language">
+        <button id="plButton" onclick="changeLanguage('pl')">PL</button>
+        <button id="enButton" onclick="changeLanguage('en')">EN</button>
+    </div>
+
+    <!-- NAGŁÓWEK -->
     <header>
         <h1>AVRDUDE Calculator</h1>
-        <div class="version">Wersja 0.7.1</div>
+
+        <div class="subtitle" id="subtitle">
+            Narzędzia dla AVRDUDE, Arduino CLI i ESP
+        </div>
     </header>
 
-    <div class="container">
-        <div class="card">
+    <main class="container">
 
-            <p class="description">
-                AVRDUDE Calculator to program pomocniczy do pracy z AVRDUDE,
-                Arduino CLI oraz narzędziami programistycznymi.
+        <!-- O PROGRAMIE -->
+        <section class="card">
+
+            <h2 id="aboutTitle">
+                O programie
+            </h2>
+
+            <p class="description" id="aboutText">
+                AVRDUDE Calculator to program pomocniczy do pracy
+                z AVRDUDE, Arduino CLI oraz narzędziami programistycznymi.
             </p>
 
             <a
-                class="download"
-                href="https://drive.usercontent.google.com/download?id=164_f35-psZZMHEpb1ahtlMWA9-qoN3_g&export=download&authuser=0"
+                id="mainDownload"
+                class="download-main"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer">
-                Pobierz AVRDUDE Calculator 0.7.1
+
+                Pobierz najnowszą wersję
+
             </a>
 
-            <div class="info">
-                Instalator dla Windows · około 28 MB
+        </section>
+
+        <!-- RELEASES -->
+        <section class="card">
+
+            <h2 id="releasesTitle">
+                Releases
+            </h2>
+
+            <div id="releases">
+                Ładowanie wersji...
             </div>
 
-        </div>
-    </div>
+        </section>
 
+    </main>
+
+    <!-- STOPKA -->
     <footer>
         AVRDUDE Calculator © 2026
     </footer>
+
+
+<script>
+
+    let currentLanguage = "pl";
+    let releasesData = [];
+
+
+    /*
+     * TEKSTY
+     */
+
+    const translations = {
+
+        pl: {
+            subtitle:
+                "Narzędzia dla AVRDUDE, Arduino CLI i ESP",
+
+            aboutTitle:
+                "O programie",
+
+            aboutText:
+                "AVRDUDE Calculator to program pomocniczy do pracy z AVRDUDE, Arduino CLI oraz narzędziami programistycznymi.",
+
+            downloadLatest:
+                "Pobierz najnowszą wersję",
+
+            releasesTitle:
+                "Releases",
+
+            latest:
+                "NAJNOWSZA WERSJA",
+
+            download:
+                "Pobierz instalator",
+
+            source:
+                "Kod źródłowy",
+
+            loading:
+                "Ładowanie wersji...",
+
+            noReleases:
+                "Brak dostępnych wersji.",
+
+            releaseDate:
+                "Data wydania"
+        },
+
+
+        en: {
+            subtitle:
+                "Tools for AVRDUDE, Arduino CLI and ESP",
+
+            aboutTitle:
+                "About",
+
+            aboutText:
+                "AVRDUDE Calculator is a utility program for working with AVRDUDE, Arduino CLI and development tools.",
+
+            downloadLatest:
+                "Download latest version",
+
+            releasesTitle:
+                "Releases",
+
+            latest:
+                "LATEST VERSION",
+
+            download:
+                "Download installer",
+
+            source:
+                "Source code",
+
+            loading:
+                "Loading releases...",
+
+            noReleases:
+                "No releases available.",
+
+            releaseDate:
+                "Release date"
+        }
+
+    };
+
+
+    /*
+     * ZMIANA JĘZYKA
+     */
+
+    function changeLanguage(language) {
+
+        currentLanguage = language;
+
+        const t = translations[language];
+
+        document.documentElement.lang = language;
+
+        document.getElementById("subtitle").textContent =
+            t.subtitle;
+
+        document.getElementById("aboutTitle").textContent =
+            t.aboutTitle;
+
+        document.getElementById("aboutText").textContent =
+            t.aboutText;
+
+        document.getElementById("mainDownload").textContent =
+            t.downloadLatest;
+
+        document.getElementById("releasesTitle").textContent =
+            t.releasesTitle;
+
+
+        document.getElementById("plButton")
+            .classList.toggle("active", language === "pl");
+
+        document.getElementById("enButton")
+            .classList.toggle("active", language === "en");
+
+
+        displayReleases();
+
+    }
+
+
+    /*
+     * POBIERANIE RELEASES.JSON
+     */
+
+    async function loadReleases() {
+
+        try {
+
+            const response = await fetch(
+                "releases.json?cache=" + Date.now()
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Nie można załadować releases.json"
+                );
+            }
+
+            releasesData = await response.json();
+
+
+            /*
+             * Sortowanie:
+             * pierwsza wersja w JSON = najnowsza
+             */
+
+            displayReleases();
+
+
+            /*
+             * GŁÓWNY PRZYCISK POBIERANIA
+             */
+
+            if (releasesData.length > 0) {
+
+                document.getElementById(
+                    "mainDownload"
+                ).href =
+                    releasesData[0].installer;
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            document.getElementById(
+                "releases"
+            ).innerHTML =
+                '<div class="empty">' +
+                translations[currentLanguage].noReleases +
+                '</div>';
+
+        }
+
+    }
+
+
+    /*
+     * WYŚWIETLANIE RELEASES
+     */
+
+    function displayReleases() {
+
+        const container =
+            document.getElementById("releases");
+
+        const t =
+            translations[currentLanguage];
+
+
+        container.innerHTML = "";
+
+
+        if (!releasesData.length) {
+
+            container.innerHTML =
+                '<div class="empty">' +
+                t.noReleases +
+                '</div>';
+
+            return;
+
+        }
+
+
+        releasesData.forEach(
+            (release, index) => {
+
+                const div =
+                    document.createElement("div");
+
+                div.className = "release";
+
+
+                let latest = "";
+
+                if (index === 0) {
+
+                    latest =
+                        '<div class="latest">' +
+                        t.latest +
+                        '</div>';
+
+                }
+
+
+                const description =
+                    currentLanguage === "pl"
+                        ? release.description_pl
+                        : release.description_en;
+
+
+                div.innerHTML = `
+
+                    ${latest}
+
+                    <h3>
+                        AVRDUDE Calculator
+                        ${escapeHTML(release.version)}
+                    </h3>
+
+                    <div class="date">
+                        ${t.releaseDate}:
+                        ${escapeHTML(release.date)}
+                    </div>
+
+                    <div class="release-description">
+                        ${escapeHTML(description)}
+                    </div>
+
+                    <div class="release-buttons">
+
+                        <a
+                            href="${escapeAttribute(release.installer)}"
+                            target="_blank"
+                            rel="noopener noreferrer">
+
+                            ${t.download}
+
+                        </a>
+
+                        <a
+                            href="${escapeAttribute(release.source)}"
+                            target="_blank"
+                            rel="noopener noreferrer">
+
+                            ${t.source}
+
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(div);
+
+            }
+        );
+
+    }
+
+
+    /*
+     * ZABEZPIECZENIE TEKSTU
+     */
+
+    function escapeHTML(text) {
+
+        return String(text)
+
+            .replaceAll("&", "&amp;")
+
+            .replaceAll("<", "&lt;")
+
+            .replaceAll(">", "&gt;")
+
+            .replaceAll('"', "&quot;")
+
+            .replaceAll("'", "&#039;");
+
+    }
+
+
+    /*
+     * ZABEZPIECZENIE LINKÓW
+     */
+
+    function escapeAttribute(text) {
+
+        return String(text)
+            .replaceAll('"', "%22");
+
+    }
+
+
+    /*
+     * START
+     */
+
+    changeLanguage("pl");
+
+    loadReleases();
+
+</script>
 
 </body>
 </html>
