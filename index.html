@@ -187,7 +187,6 @@
         }
 
         @media (max-width: 650px) {
-
             h1 {
                 font-size: 38px;
             }
@@ -216,17 +215,13 @@
         <button
             id="plButton"
             onclick="changeLanguage('pl')">
-
             PL
-
         </button>
 
         <button
             id="enButton"
             onclick="changeLanguage('en')">
-
             EN
-
         </button>
 
     </div>
@@ -236,16 +231,12 @@
 
     <header>
 
-        <h1>
-            AVRDUDE Calculator
-        </h1>
+        <h1>AVRDUDE Calculator</h1>
 
         <div
             class="subtitle"
             id="subtitle">
-
             Narzędzia dla AVRDUDE i Arduino CLI
-
         </div>
 
     </header>
@@ -273,7 +264,6 @@
 
 
             <div class="main-buttons">
-
 
                 <!-- NAJNOWSZY INSTALATOR -->
 
@@ -307,7 +297,6 @@
         </section>
 
 
-
         <!-- RELEASES -->
 
         <section class="card">
@@ -317,9 +306,7 @@
             </h2>
 
             <div id="releases">
-
                 Ładowanie wersji...
-
             </div>
 
         </section>
@@ -328,29 +315,23 @@
 
 
     <footer>
-
         AVRDUDE Calculator © 2026
-
     </footer>
 
 
 
 <script>
 
-
 let currentLanguage = "pl";
 
 let releasesData = [];
-
 
 
 /*
     TŁUMACZENIA
 */
 
-
 const translations = {
-
 
     pl: {
 
@@ -436,21 +417,16 @@ const translations = {
 };
 
 
-
 /*
     ZMIANA JĘZYKA
 */
 
-
 function changeLanguage(language) {
-
 
     currentLanguage = language;
 
-
     const t =
         translations[language];
-
 
     document.documentElement.lang =
         language;
@@ -513,17 +489,13 @@ function changeLanguage(language) {
 }
 
 
-
 /*
-    ŁADOWANIE RELEASES.JSON
+    ŁADOWANIE JSON
 */
-
 
 async function loadReleases() {
 
-
     try {
-
 
         const response =
             await fetch(
@@ -546,48 +518,47 @@ async function loadReleases() {
 
 
         /*
-            PIERWSZY ELEMENT
+            OSTATNI ELEMENT JSON-A
             = NAJNOWSZA WERSJA
         */
 
-
         if (releasesData.length > 0) {
+
+            const latest =
+                releasesData[
+                    releasesData.length - 1
+                ];
 
 
             /*
-                NAJNOWSZY INSTALATOR
+                INSTALATOR NAJNOWSZEJ WERSJI
             */
 
             document.getElementById(
                 "mainDownload"
             ).href =
-                releasesData[0].installer;
-
+                latest.installer;
 
 
             /*
-                NAJNOWSZY KOD ŹRÓDŁOWY
+                KOD ŹRÓDŁOWY NAJNOWSZEJ WERSJI
             */
 
             document.getElementById(
                 "mainSource"
             ).href =
-                releasesData[0].source;
+                latest.source;
 
         }
 
 
         displayReleases();
 
-
     }
-
 
     catch (error) {
 
-
         console.error(error);
-
 
         document.getElementById(
             "releases"
@@ -606,14 +577,11 @@ async function loadReleases() {
 }
 
 
-
 /*
     WYŚWIETLANIE RELEASES
 */
 
-
 function displayReleases() {
-
 
     const container =
         document.getElementById(
@@ -630,9 +598,7 @@ function displayReleases() {
     container.innerHTML = "";
 
 
-
     if (!releasesData.length) {
-
 
         container.innerHTML =
 
@@ -642,16 +608,13 @@ function displayReleases() {
 
             '</div>';
 
-
         return;
 
     }
 
 
-
     releasesData.forEach(
         (release, index) => {
-
 
             const div =
                 document.createElement(
@@ -663,17 +626,18 @@ function displayReleases() {
                 "release";
 
 
-
             /*
-                NAJNOWSZA WERSJA
+                OSTATNIA WERSJA
+                = NAJNOWSZA
             */
-
 
             let latest = "";
 
 
-            if (index === 0) {
-
+            if (
+                index ===
+                releasesData.length - 1
+            ) {
 
                 latest =
 
@@ -686,11 +650,9 @@ function displayReleases() {
             }
 
 
-
             /*
-                OPIS
+                OPIS W ODPOWIEDNIM JĘZYKU
             */
-
 
             const description =
 
@@ -701,22 +663,13 @@ function displayReleases() {
                     : release.description_en;
 
 
-
-            /*
-                HTML RELEASE
-            */
-
-
             div.innerHTML = `
 
-
                 ${latest}
-
 
                 <h3>
 
                     AVRDUDE Calculator
-
                     ${escapeHTML(
                         release.version
                     )}
@@ -786,11 +739,9 @@ function displayReleases() {
 }
 
 
-
 /*
     ZABEZPIECZENIE TEKSTU
 */
-
 
 function escapeHTML(text) {
 
@@ -824,11 +775,9 @@ function escapeHTML(text) {
 }
 
 
-
 /*
     ZABEZPIECZENIE LINKU
 */
-
 
 function escapeAttribute(text) {
 
@@ -841,16 +790,13 @@ function escapeAttribute(text) {
 }
 
 
-
 /*
     START
 */
 
-
 changeLanguage("pl");
 
 loadReleases();
-
 
 </script>
 
