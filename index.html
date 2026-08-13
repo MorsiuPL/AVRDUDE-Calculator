@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
@@ -72,6 +76,7 @@
             border-radius: 18px;
             padding: 35px;
             margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         h2 {
@@ -182,6 +187,7 @@
         }
 
         @media (max-width: 650px) {
+
             h1 {
                 font-size: 38px;
             }
@@ -203,34 +209,73 @@
 
 <body>
 
+    <!-- JĘZYK -->
+
     <div class="language">
-        <button id="plButton" onclick="changeLanguage('pl')">PL</button>
-        <button id="enButton" onclick="changeLanguage('en')">EN</button>
+
+        <button
+            id="plButton"
+            onclick="changeLanguage('pl')">
+
+            PL
+
+        </button>
+
+        <button
+            id="enButton"
+            onclick="changeLanguage('en')">
+
+            EN
+
+        </button>
+
     </div>
 
-    <header>
-        <h1>AVRDUDE Calculator</h1>
 
-        <div class="subtitle" id="subtitle">
+    <!-- NAGŁÓWEK -->
+
+    <header>
+
+        <h1>
+            AVRDUDE Calculator
+        </h1>
+
+        <div
+            class="subtitle"
+            id="subtitle">
+
             Narzędzia dla AVRDUDE i Arduino CLI
+
         </div>
+
     </header>
+
 
     <main class="container">
 
+
         <!-- O PROGRAMIE -->
+
         <section class="card">
 
             <h2 id="aboutTitle">
                 O programie
             </h2>
 
-            <p class="description" id="aboutText">
-                AVRDUDE Calculator to program pomocniczy do pracy
-                z AVRDUDE oraz Arduino CLI.
+            <p
+                class="description"
+                id="aboutText">
+
+                AVRDUDE Calculator to program pomocniczy
+                do pracy z AVRDUDE oraz Arduino CLI.
+
             </p>
 
+
             <div class="main-buttons">
+
+
+                <!-- NAJNOWSZY INSTALATOR -->
 
                 <a
                     id="mainDownload"
@@ -243,6 +288,9 @@
 
                 </a>
 
+
+                <!-- NAJNOWSZY KOD ŹRÓDŁOWY -->
+
                 <a
                     id="mainSource"
                     class="source-main"
@@ -250,7 +298,7 @@
                     target="_blank"
                     rel="noopener noreferrer">
 
-                    Pobierz kod źródłowy najnowszej wersji
+                    Pobierz najnowszy kod źródłowy
 
                 </a>
 
@@ -259,7 +307,9 @@
         </section>
 
 
+
         <!-- RELEASES -->
+
         <section class="card">
 
             <h2 id="releasesTitle">
@@ -267,7 +317,9 @@
             </h2>
 
             <div id="releases">
+
                 Ładowanie wersji...
+
             </div>
 
         </section>
@@ -276,17 +328,29 @@
 
 
     <footer>
+
         AVRDUDE Calculator © 2026
+
     </footer>
+
 
 
 <script>
 
+
 let currentLanguage = "pl";
+
 let releasesData = [];
 
 
+
+/*
+    TŁUMACZENIA
+*/
+
+
 const translations = {
+
 
     pl: {
 
@@ -303,7 +367,7 @@ const translations = {
             "Pobierz najnowszą wersję",
 
         downloadSourceLatest:
-            "Pobierz kod źródłowy najnowszej wersji",
+            "Pobierz najnowszy kod źródłowy",
 
         releasesTitle:
             "Releases",
@@ -344,7 +408,7 @@ const translations = {
             "Download latest version",
 
         downloadSourceLatest:
-            "Download source code of the latest version",
+            "Download latest source code",
 
         releasesTitle:
             "Releases",
@@ -372,88 +436,169 @@ const translations = {
 };
 
 
+
+/*
+    ZMIANA JĘZYKA
+*/
+
+
 function changeLanguage(language) {
+
 
     currentLanguage = language;
 
-    const t = translations[language];
 
-    document.documentElement.lang = language;
+    const t =
+        translations[language];
 
-    document.getElementById("subtitle").textContent =
+
+    document.documentElement.lang =
+        language;
+
+
+    document.getElementById(
+        "subtitle"
+    ).textContent =
         t.subtitle;
 
-    document.getElementById("aboutTitle").textContent =
+
+    document.getElementById(
+        "aboutTitle"
+    ).textContent =
         t.aboutTitle;
 
-    document.getElementById("aboutText").textContent =
+
+    document.getElementById(
+        "aboutText"
+    ).textContent =
         t.aboutText;
 
-    document.getElementById("mainDownload").textContent =
+
+    document.getElementById(
+        "mainDownload"
+    ).textContent =
         t.downloadLatest;
 
-    document.getElementById("mainSource").textContent =
+
+    document.getElementById(
+        "mainSource"
+    ).textContent =
         t.downloadSourceLatest;
 
-    document.getElementById("releasesTitle").textContent =
+
+    document.getElementById(
+        "releasesTitle"
+    ).textContent =
         t.releasesTitle;
 
-    document.getElementById("plButton")
-        .classList.toggle(
-            "active",
-            language === "pl"
-        );
 
-    document.getElementById("enButton")
-        .classList.toggle(
-            "active",
-            language === "en"
-        );
+    document.getElementById(
+        "plButton"
+    ).classList.toggle(
+        "active",
+        language === "pl"
+    );
+
+
+    document.getElementById(
+        "enButton"
+    ).classList.toggle(
+        "active",
+        language === "en"
+    );
+
 
     displayReleases();
+
 }
+
+
+
+/*
+    ŁADOWANIE RELEASES.JSON
+*/
 
 
 async function loadReleases() {
 
+
     try {
 
-        const response = await fetch(
-            "releases.json?cache=" + Date.now()
-        );
+
+        const response =
+            await fetch(
+                "releases.json?cache=" +
+                Date.now()
+            );
+
 
         if (!response.ok) {
-            throw new Error("Nie można załadować releases.json");
+
+            throw new Error(
+                "Nie można załadować releases.json"
+            );
+
         }
 
-        releasesData = await response.json();
 
-        displayReleases();
+        releasesData =
+            await response.json();
 
 
         /*
-         * PIERWSZY ELEMENT = NAJNOWSZA WERSJA
-         */
+            PIERWSZY ELEMENT
+            = NAJNOWSZA WERSJA
+        */
+
 
         if (releasesData.length > 0) {
 
-            document.getElementById("mainDownload").href =
+
+            /*
+                NAJNOWSZY INSTALATOR
+            */
+
+            document.getElementById(
+                "mainDownload"
+            ).href =
                 releasesData[0].installer;
 
-            document.getElementById("mainSource").href =
+
+
+            /*
+                NAJNOWSZY KOD ŹRÓDŁOWY
+            */
+
+            document.getElementById(
+                "mainSource"
+            ).href =
                 releasesData[0].source;
 
         }
 
+
+        displayReleases();
+
+
     }
+
 
     catch (error) {
 
+
         console.error(error);
 
-        document.getElementById("releases").innerHTML =
+
+        document.getElementById(
+            "releases"
+        ).innerHTML =
+
             '<div class="empty">' +
-            translations[currentLanguage].noReleases +
+
+            translations[
+                currentLanguage
+            ].noReleases +
+
             '</div>';
 
     }
@@ -461,83 +606,151 @@ async function loadReleases() {
 }
 
 
+
+/*
+    WYŚWIETLANIE RELEASES
+*/
+
+
 function displayReleases() {
 
+
     const container =
-        document.getElementById("releases");
+        document.getElementById(
+            "releases"
+        );
+
 
     const t =
-        translations[currentLanguage];
+        translations[
+            currentLanguage
+        ];
+
 
     container.innerHTML = "";
 
 
+
     if (!releasesData.length) {
 
+
         container.innerHTML =
+
             '<div class="empty">' +
+
             t.noReleases +
+
             '</div>';
+
 
         return;
 
     }
 
 
+
     releasesData.forEach(
         (release, index) => {
 
-            const div =
-                document.createElement("div");
 
-            div.className = "release";
+            const div =
+                document.createElement(
+                    "div"
+                );
+
+
+            div.className =
+                "release";
+
 
 
             /*
-             * TYLKO PIERWSZA WERSJA
-             * DOSTAJE "NAJNOWSZA WERSJA"
-             */
+                NAJNOWSZA WERSJA
+            */
+
 
             let latest = "";
 
+
             if (index === 0) {
 
+
                 latest =
+
                     '<div class="latest">' +
+
                     t.latest +
+
                     '</div>';
 
             }
 
 
+
+            /*
+                OPIS
+            */
+
+
             const description =
+
                 currentLanguage === "pl"
+
                     ? release.description_pl
+
                     : release.description_en;
+
+
+
+            /*
+                HTML RELEASE
+            */
 
 
             div.innerHTML = `
 
+
                 ${latest}
 
+
                 <h3>
+
                     AVRDUDE Calculator
-                    ${escapeHTML(release.version)}
+
+                    ${escapeHTML(
+                        release.version
+                    )}
+
                 </h3>
 
+
                 <div class="date">
+
                     ${t.releaseDate}:
-                    ${escapeHTML(release.date)}
+
+                    ${escapeHTML(
+                        release.date
+                    )}
+
                 </div>
 
+
                 <div class="release-description">
-                    ${escapeHTML(description)}
+
+                    ${escapeHTML(
+                        description
+                    )}
+
                 </div>
+
 
                 <div class="release-buttons">
 
+
                     <a
-                        href="${escapeAttribute(release.installer)}"
+                        href="${escapeAttribute(
+                            release.installer
+                        )}"
                         target="_blank"
                         rel="noopener noreferrer">
 
@@ -545,8 +758,11 @@ function displayReleases() {
 
                     </a>
 
+
                     <a
-                        href="${escapeAttribute(release.source)}"
+                        href="${escapeAttribute(
+                            release.source
+                        )}"
                         target="_blank"
                         rel="noopener noreferrer">
 
@@ -554,10 +770,15 @@ function displayReleases() {
 
                     </a>
 
+
                 </div>
+
             `;
 
-            container.appendChild(div);
+
+            container.appendChild(
+                div
+            );
 
         }
     );
@@ -565,29 +786,71 @@ function displayReleases() {
 }
 
 
+
+/*
+    ZABEZPIECZENIE TEKSTU
+*/
+
+
 function escapeHTML(text) {
 
     return String(text)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 
 }
+
+
+
+/*
+    ZABEZPIECZENIE LINKU
+*/
 
 
 function escapeAttribute(text) {
 
     return String(text)
-        .replaceAll('"', "%22");
+        .replaceAll(
+            '"',
+            "%22"
+        );
 
 }
+
+
+
+/*
+    START
+*/
 
 
 changeLanguage("pl");
 
 loadReleases();
+
 
 </script>
 
