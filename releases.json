@@ -6,5 +6,13 @@
         "description_en": "First public release of AVRDUDE Calculator.",
         "installer": "https://drive.google.com/file/d/164_f35-psZZMHEpb1ahtlMWA9-qoN3_g/view?usp=drive_link",
         "source": "https://drive.google.com/file/d/1xQaVsoM2K9rTUc1GkGjyszkc67peMMaW/view?usp=drive_link"
+    },
+    {
+        "version": "0.7.2",
+        "date": "2026-08-13",
+        "description_pl": "Pierwsza wersja z ikonami(bez ikon, bo nie może się dodać:( )",
+        "description_en": "First version with icons (without icons because it can't be added :( )",
+        "installer": "https://drive.google.com/file/d/1qABkT9hNNXORGrc8iHclUkXAUqZT8TkI/view?usp=drive_link",
+        "source": "https://drive.google.com/file/d/1L8TsHexlH2TEfgzGWRnia3YLXzxqjczi/view?usp=drive_link"
     }
 ]
