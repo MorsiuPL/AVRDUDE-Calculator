@@ -1,4 +1,5 @@
 Copyright (c) 2026 Morsiu_PL
+AVRDUDE Calculator is open-source software released under the terms below.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (“the Software”), to use,
@@ -35,20 +36,4 @@ so, subject to the following conditions:
    permission is granted.
 
 4. Visual Assets
-   All icons, graphics, and visual elements included in the Software are
-   copyrighted by Morsiu_PL. They may be used or modified only as part of the
-   Software. Using them separately in other projects requires explicit
-   permission.
-
-5. Distribution of Modified Versions
-   Modified versions must not imply endorsement by the original author. Any
-   changes must be clearly documented. The original author’s name must remain
-   visible in credits.
-
-6. Liability and Warranty
-   The Software is provided “as is”, without warranty of any kind, express or
-   implied. The author is not liable for any damages, losses, or claims arising
-   from the use of the Software.
-
-By using, copying, modifying, or distributing this Software, you agree to the
-terms above.
+   All icons, graphics
