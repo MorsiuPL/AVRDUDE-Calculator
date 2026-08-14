@@ -7,7 +7,6 @@
     <title>AVRDUDE Calculator</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -67,7 +66,7 @@
             color: #111;
         }
 
-        /* GŁÓWNY KONTENER */
+        /* KONTENER */
 
         .container {
             max-width: 900px;
@@ -95,7 +94,7 @@
             font-size: 17px;
         }
 
-        /* INFORMACJA O DOMENIE */
+        /* DOMENA */
 
         .domain-notice {
             margin-top: 18px;
@@ -129,7 +128,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
-        /* PRZYCISKI */
+        /* GŁÓWNE PRZYCISKI */
 
         .main-buttons {
             margin-top: 25px;
@@ -278,10 +277,18 @@
             padding: 40px 20px;
         }
 
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
         /* TELEFON */
 
         @media (max-width: 650px) {
-
             h1 {
                 font-size: 38px;
             }
@@ -306,16 +313,13 @@
             .sort-controls select {
                 width: 100%;
             }
-
         }
-
     </style>
 </head>
 
 <body>
 
-
-    <!-- WYBÓR JĘZYKA -->
+    <!-- JĘZYK -->
 
     <div class="language">
 
@@ -368,7 +372,6 @@
                 O programie
             </h2>
 
-
             <p
                 class="description"
                 id="aboutText">
@@ -379,7 +382,7 @@
             </p>
 
 
-            <!-- INFORMACJA O NOWEJ DOMENIE -->
+            <!-- NOWA DOMENA -->
 
             <div
                 class="domain-notice"
@@ -392,7 +395,7 @@
             </div>
 
 
-            <!-- ZDJĘCIE PROGRAMU -->
+            <!-- ZDJĘCIE -->
 
             <div class="screenshot">
 
@@ -433,7 +436,7 @@
             </div>
 
 
-            <!-- NUMER NAJNOWSZEJ WERSJI -->
+            <!-- WERSJA -->
 
             <div
                 class="latest-version"
@@ -485,8 +488,6 @@
             </div>
 
 
-            <!-- LISTA RELEASES -->
-
             <div id="releases">
 
                 Ładowanie wersji...
@@ -498,9 +499,38 @@
     </main>
 
 
+    <!-- STOPKA -->
+
     <footer>
 
-        AVRDUDE Calculator © 2026
+        <div>
+            AVRDUDE Calculator © 2026
+        </div>
+
+        <div style="margin-top: 10px;">
+
+            <a
+                id="licenseLink"
+                href="https://github.com/MorsiuPL/AVRDUDE-Calculator/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer">
+
+                Licencja
+
+            </a>
+
+            <span style="margin: 0 8px;">
+                |
+            </span>
+
+            <a
+                href="mailto:kontaktkillsurvive@gmail.com">
+
+                kontaktkillsurvive@gmail.com
+
+            </a>
+
+        </div>
 
     </footer>
 
@@ -513,9 +543,9 @@ let currentLanguage = "pl";
 let releasesData = [];
 
 
-/*
-    TŁUMACZENIA
-*/
+/* =========================
+   TŁUMACZENIA
+========================= */
 
 const translations = {
 
@@ -573,7 +603,10 @@ const translations = {
             "Brak dostępnych wersji.",
 
         releaseDate:
-            "Data wydania"
+            "Data wydania",
+
+        license:
+            "Licencja"
 
     },
 
@@ -632,41 +665,40 @@ const translations = {
             "No releases available.",
 
         releaseDate:
-            "Release date"
+            "Release date",
+
+        license:
+            "License"
 
     }
 
 };
 
 
-/*
-    PORÓWNYWANIE WERSJI
-*/
+/* =========================
+   PORÓWNYWANIE WERSJI
+========================= */
 
 function compareVersions(a, b) {
 
-    const partsA =
+    const A =
         String(a)
             .replace(/^v/i, "")
             .split(".")
-            .map(
-                x => parseInt(x) || 0
-            );
+            .map(x => parseInt(x) || 0);
 
 
-    const partsB =
+    const B =
         String(b)
             .replace(/^v/i, "")
             .split(".")
-            .map(
-                x => parseInt(x) || 0
-            );
+            .map(x => parseInt(x) || 0);
 
 
     const length =
         Math.max(
-            partsA.length,
-            partsB.length
+            A.length,
+            B.length
         );
 
 
@@ -676,18 +708,16 @@ function compareVersions(a, b) {
         i++
     ) {
 
-        const numberA =
-            partsA[i] || 0;
+        const x =
+            A[i] || 0;
 
-        const numberB =
-            partsB[i] || 0;
+        const y =
+            B[i] || 0;
 
 
-        if (
-            numberA !== numberB
-        ) {
+        if (x !== y) {
 
-            return numberA - numberB;
+            return x - y;
 
         }
 
@@ -695,19 +725,16 @@ function compareVersions(a, b) {
 
 
     return 0;
-
 }
 
 
-/*
-    ZNAJDOWANIE NAJNOWSZEJ WERSJI
-*/
+/* =========================
+   NAJNOWSZA WERSJA
+========================= */
 
 function getLatestRelease() {
 
-    if (
-        !releasesData.length
-    ) {
+    if (!releasesData.length) {
 
         return null;
 
@@ -727,13 +754,12 @@ function getLatestRelease() {
     return sorted[
         sorted.length - 1
     ];
-
 }
 
 
-/*
-    ZMIANA JĘZYKA
-*/
+/* =========================
+   ZMIANA JĘZYKA
+========================= */
 
 function changeLanguage(language) {
 
@@ -742,9 +768,7 @@ function changeLanguage(language) {
 
 
     const t =
-        translations[
-            language
-        ];
+        translations[language];
 
 
     document.documentElement.lang =
@@ -769,11 +793,9 @@ function changeLanguage(language) {
         t.aboutText;
 
 
-    /*
-        INFORMACJA O DOMENIE
-    */
-
-    const domainText =
+    document.getElementById(
+        "domainNotice"
+    ).innerHTML =
         escapeHTML(
             t.domainNotice
         ).replace(
@@ -781,16 +803,6 @@ function changeLanguage(language) {
             "<strong>avrdudecalculator.pl</strong>"
         );
 
-
-    document.getElementById(
-        "domainNotice"
-    ).innerHTML =
-        domainText;
-
-
-    /*
-        PRZYCISKI
-    */
 
     document.getElementById(
         "mainDownload"
@@ -803,10 +815,6 @@ function changeLanguage(language) {
     ).textContent =
         t.downloadSourceLatest;
 
-
-    /*
-        RELEASES
-    */
 
     document.getElementById(
         "releasesTitle"
@@ -832,9 +840,11 @@ function changeLanguage(language) {
         t.newestToOldest;
 
 
-    /*
-        PRZYCISKI JĘZYKA
-    */
+    document.getElementById(
+        "licenseLink"
+    ).textContent =
+        t.license;
+
 
     document.getElementById(
         "plButton"
@@ -859,9 +869,9 @@ function changeLanguage(language) {
 }
 
 
-/*
-    AKTUALIZACJA NAJNOWSZEJ WERSJI
-*/
+/* =========================
+   AKTUALIZACJA WERSJI
+========================= */
 
 function updateLatestVersion() {
 
@@ -901,9 +911,9 @@ function updateLatestVersion() {
 }
 
 
-/*
-    WCZYTYWANIE RELEASES.JSON
-*/
+/* =========================
+   WCZYTYWANIE JSON
+========================= */
 
 async function loadReleases() {
 
@@ -942,19 +952,11 @@ async function loadReleases() {
         }
 
 
-        /*
-            NAJNOWSZY RELEASE
-        */
-
         const latest =
             getLatestRelease();
 
 
         if (latest) {
-
-            /*
-                INSTALATOR
-            */
 
             document.getElementById(
                 "mainDownload"
@@ -962,19 +964,11 @@ async function loadReleases() {
                 latest.installer;
 
 
-            /*
-                KOD ŹRÓDŁOWY
-            */
-
             document.getElementById(
                 "mainSource"
             ).href =
                 latest.source;
 
-
-            /*
-                NUMER WERSJI
-            */
 
             updateLatestVersion();
 
@@ -1008,9 +1002,9 @@ async function loadReleases() {
 }
 
 
-/*
-    WYŚWIETLANIE RELEASES
-*/
+/* =========================
+   RELEASES
+========================= */
 
 function displayReleases() {
 
@@ -1029,9 +1023,7 @@ function displayReleases() {
     container.innerHTML = "";
 
 
-    if (
-        !releasesData.length
-    ) {
+    if (!releasesData.length) {
 
         container.innerHTML =
 
@@ -1047,10 +1039,10 @@ function displayReleases() {
 
 
     /*
-        SORTOWANIE WERSJI
+        SORTOWANIE
     */
 
-    let sortedReleases =
+    let sorted =
         [...releasesData].sort(
             (a, b) =>
                 compareVersions(
@@ -1059,11 +1051,6 @@ function displayReleases() {
                 )
         );
 
-
-    /*
-        JEŚLI WYBRANO:
-        NAJNOWSZE → NAJSTARSZE
-    */
 
     const sortOrder =
         document.getElementById(
@@ -1075,17 +1062,39 @@ function displayReleases() {
         sortOrder === "newest"
     ) {
 
-        sortedReleases.reverse();
+        sorted.reverse();
 
     }
+
+
+    /*
+        NAJSTARSZA
+    */
+
+    const oldest =
+        [...releasesData].sort(
+            (a, b) =>
+                compareVersions(
+                    a.version,
+                    b.version
+                )
+        )[0];
+
+
+    /*
+        NAJNOWSZA
+    */
+
+    const newest =
+        getLatestRelease();
 
 
     /*
         WYŚWIETLANIE
     */
 
-    sortedReleases.forEach(
-        (release) => {
+    sorted.forEach(
+        release => {
 
             const div =
                 document.createElement(
@@ -1097,36 +1106,13 @@ function displayReleases() {
                 "release";
 
 
-            /*
-                SPRAWDZENIE PRAWDZIWEJ
-                NAJSTARSZEJ I NAJNOWSZEJ
-                WERSJI
-            */
-
-            const oldestRelease =
-                [...releasesData].sort(
-                    (a, b) =>
-                        compareVersions(
-                            a.version,
-                            b.version
-                        )
-                )[0];
-
-
-            const newestRelease =
-                getLatestRelease();
-
-
             let labels = "";
 
 
-            /*
-                NAJSTARSZA
-            */
-
             if (
+                oldest &&
                 release.version ===
-                oldestRelease.version
+                oldest.version
             ) {
 
                 labels +=
@@ -1140,14 +1126,10 @@ function displayReleases() {
             }
 
 
-            /*
-                NAJNOWSZA
-            */
-
             if (
-                newestRelease &&
+                newest &&
                 release.version ===
-                newestRelease.version
+                newest.version
             ) {
 
                 labels +=
@@ -1161,10 +1143,6 @@ function displayReleases() {
             }
 
 
-            /*
-                OPIS
-            */
-
             const description =
 
                 currentLanguage === "pl"
@@ -1174,23 +1152,16 @@ function displayReleases() {
                     : release.description_en;
 
 
-            /*
-                HTML RELEASE
-            */
-
             div.innerHTML = `
 
                 ${labels}
 
                 <h3>
-
                     AVRDUDE Calculator
                     ${escapeHTML(
                         release.version
                     )}
-
                 </h3>
-
 
                 <div class="date">
 
@@ -1202,7 +1173,6 @@ function displayReleases() {
 
                 </div>
 
-
                 <div class="release-description">
 
                     ${escapeHTML(
@@ -1210,7 +1180,6 @@ function displayReleases() {
                     )}
 
                 </div>
-
 
                 <div class="release-buttons">
 
@@ -1224,7 +1193,6 @@ function displayReleases() {
                         ${t.download}
 
                     </a>
-
 
                     <a
                         href="${escapeAttribute(
@@ -1252,9 +1220,9 @@ function displayReleases() {
 }
 
 
-/*
-    ZABEZPIECZENIE TEKSTU
-*/
+/* =========================
+   BEZPIECZEŃSTWO TEKSTU
+========================= */
 
 function escapeHTML(text) {
 
@@ -1288,10 +1256,6 @@ function escapeHTML(text) {
 }
 
 
-/*
-    ZABEZPIECZENIE LINKU
-*/
-
 function escapeAttribute(text) {
 
     return String(text)
@@ -1303,9 +1267,9 @@ function escapeAttribute(text) {
 }
 
 
-/*
-    START STRONY
-*/
+/* =========================
+   START
+========================= */
 
 changeLanguage("pl");
 
