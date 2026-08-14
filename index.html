@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>AVRDUDE Calculator</title>
 
     <style>
         * {
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
         }
 
         body {
@@ -37,8 +32,6 @@
             color: #aaa;
             font-size: 19px;
         }
-
-        /* JĘZYK */
 
         .language {
             position: fixed;
@@ -66,8 +59,6 @@
             color: #111;
         }
 
-        /* KONTENER */
-
         .container {
             max-width: 900px;
             margin: auto;
@@ -94,24 +85,6 @@
             font-size: 17px;
         }
 
-        /* DOMENA */
-
-        .domain-notice {
-            margin-top: 18px;
-            padding: 14px 18px;
-            border: 1px solid #333;
-            border-radius: 10px;
-            background: #111318;
-            color: #aaa;
-            line-height: 1.5;
-        }
-
-        .domain-notice strong {
-            color: white;
-        }
-
-        /* ZDJĘCIE */
-
         .screenshot {
             margin-top: 25px;
             text-align: center;
@@ -127,8 +100,6 @@
             border: 1px solid #333;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
-
-        /* GŁÓWNE PRZYCISKI */
 
         .main-buttons {
             margin-top: 25px;
@@ -165,8 +136,6 @@
             background: #22252c;
         }
 
-        /* NAJNOWSZA WERSJA */
-
         .latest-version {
             margin-top: 18px;
             color: #aaa;
@@ -177,8 +146,6 @@
             color: white;
             font-weight: bold;
         }
-
-        /* SORTOWANIE */
 
         .sort-controls {
             display: flex;
@@ -197,13 +164,6 @@
             padding: 9px 12px;
             cursor: pointer;
         }
-
-        .sort-controls select:focus {
-            outline: none;
-            border-color: #777;
-        }
-
-        /* RELEASE */
 
         .release {
             background: #111318;
@@ -269,8 +229,6 @@
             color: #888;
         }
 
-        /* STOPKA */
-
         footer {
             text-align: center;
             color: #777;
@@ -285,8 +243,6 @@
         footer a:hover {
             text-decoration: underline;
         }
-
-        /* TELEFON */
 
         @media (max-width: 650px) {
             h1 {
@@ -319,24 +275,20 @@
 
 <body>
 
-    <!-- JĘZYK -->
+    <!-- WYBÓR JĘZYKA -->
 
     <div class="language">
 
         <button
             id="plButton"
             onclick="changeLanguage('pl')">
-
             PL
-
         </button>
 
         <button
             id="enButton"
             onclick="changeLanguage('en')">
-
             EN
-
         </button>
 
     </div>
@@ -382,19 +334,6 @@
             </p>
 
 
-            <!-- NOWA DOMENA -->
-
-            <div
-                class="domain-notice"
-                id="domainNotice">
-
-                Wkrótce strona zostanie przeniesiona
-                na nową domenę:
-                <strong>avrdudecalculator.pl</strong>
-
-            </div>
-
-
             <!-- ZDJĘCIE -->
 
             <div class="screenshot">
@@ -436,7 +375,7 @@
             </div>
 
 
-            <!-- WERSJA -->
+            <!-- NAJNOWSZA WERSJA -->
 
             <div
                 class="latest-version"
@@ -457,8 +396,6 @@
                 Releases
             </h2>
 
-
-            <!-- SORTOWANIE -->
 
             <div class="sort-controls">
 
@@ -489,9 +426,7 @@
 
 
             <div id="releases">
-
                 Ładowanie wersji...
-
             </div>
 
         </section>
@@ -537,15 +472,9 @@
 
 <script>
 
-
 let currentLanguage = "pl";
-
 let releasesData = [];
 
-
-/* =========================
-   TŁUMACZENIA
-========================= */
 
 const translations = {
 
@@ -559,9 +488,6 @@ const translations = {
 
         aboutText:
             "AVRDUDE Calculator to program pomocniczy do pracy z AVRDUDE oraz Arduino CLI.",
-
-        domainNotice:
-            "Wkrótce strona zostanie przeniesiona na nową domenę: avrdudecalculator.pl",
 
         downloadLatest:
             "Pobierz najnowszą wersję",
@@ -596,9 +522,6 @@ const translations = {
         source:
             "Kod źródłowy",
 
-        loading:
-            "Ładowanie wersji...",
-
         noReleases:
             "Brak dostępnych wersji.",
 
@@ -621,9 +544,6 @@ const translations = {
 
         aboutText:
             "AVRDUDE Calculator is a utility program for working with AVRDUDE and Arduino CLI.",
-
-        domainNotice:
-            "The website will soon be moved to the new domain: avrdudecalculator.pl",
 
         downloadLatest:
             "Download latest version",
@@ -658,9 +578,6 @@ const translations = {
         source:
             "Source code",
 
-        loading:
-            "Loading releases...",
-
         noReleases:
             "No releases available.",
 
@@ -675,9 +592,7 @@ const translations = {
 };
 
 
-/* =========================
-   PORÓWNYWANIE WERSJI
-========================= */
+/* PORÓWNYWANIE WERSJI */
 
 function compareVersions(a, b) {
 
@@ -687,20 +602,14 @@ function compareVersions(a, b) {
             .split(".")
             .map(x => parseInt(x) || 0);
 
-
     const B =
         String(b)
             .replace(/^v/i, "")
             .split(".")
             .map(x => parseInt(x) || 0);
 
-
     const length =
-        Math.max(
-            A.length,
-            B.length
-        );
-
+        Math.max(A.length, B.length);
 
     for (
         let i = 0;
@@ -708,38 +617,25 @@ function compareVersions(a, b) {
         i++
     ) {
 
-        const x =
-            A[i] || 0;
-
-        const y =
-            B[i] || 0;
-
+        const x = A[i] || 0;
+        const y = B[i] || 0;
 
         if (x !== y) {
-
             return x - y;
-
         }
-
     }
-
 
     return 0;
 }
 
 
-/* =========================
-   NAJNOWSZA WERSJA
-========================= */
+/* NAJNOWSZA WERSJA */
 
 function getLatestRelease() {
 
     if (!releasesData.length) {
-
         return null;
-
     }
-
 
     const sorted =
         [...releasesData].sort(
@@ -750,101 +646,71 @@ function getLatestRelease() {
                 )
         );
 
-
-    return sorted[
-        sorted.length - 1
-    ];
+    return sorted[sorted.length - 1];
 }
 
 
-/* =========================
-   ZMIANA JĘZYKA
-========================= */
+/* ZMIANA JĘZYKA */
 
 function changeLanguage(language) {
 
-    currentLanguage =
-        language;
-
+    currentLanguage = language;
 
     const t =
         translations[language];
 
-
     document.documentElement.lang =
         language;
-
 
     document.getElementById(
         "subtitle"
     ).textContent =
         t.subtitle;
 
-
     document.getElementById(
         "aboutTitle"
     ).textContent =
         t.aboutTitle;
-
 
     document.getElementById(
         "aboutText"
     ).textContent =
         t.aboutText;
 
-
-    document.getElementById(
-        "domainNotice"
-    ).innerHTML =
-        escapeHTML(
-            t.domainNotice
-        ).replace(
-            "avrdudecalculator.pl",
-            "<strong>avrdudecalculator.pl</strong>"
-        );
-
-
     document.getElementById(
         "mainDownload"
     ).textContent =
         t.downloadLatest;
-
 
     document.getElementById(
         "mainSource"
     ).textContent =
         t.downloadSourceLatest;
 
-
     document.getElementById(
         "releasesTitle"
     ).textContent =
         t.releasesTitle;
-
 
     document.getElementById(
         "sortLabel"
     ).textContent =
         t.sortLabel;
 
-
     document.querySelector(
         '#sortOrder option[value="oldest"]'
     ).textContent =
         t.oldestToNewest;
-
 
     document.querySelector(
         '#sortOrder option[value="newest"]'
     ).textContent =
         t.newestToOldest;
 
-
     document.getElementById(
         "licenseLink"
     ).textContent =
         t.license;
-
 
     document.getElementById(
         "plButton"
@@ -853,7 +719,6 @@ function changeLanguage(language) {
         language === "pl"
     );
 
-
     document.getElementById(
         "enButton"
     ).classList.toggle(
@@ -861,36 +726,24 @@ function changeLanguage(language) {
         language === "en"
     );
 
-
     updateLatestVersion();
-
     displayReleases();
-
 }
 
 
-/* =========================
-   AKTUALIZACJA WERSJI
-========================= */
+/* AKTUALIZACJA NAJNOWSZEJ WERSJI */
 
 function updateLatestVersion() {
 
     const latest =
         getLatestRelease();
 
-
     if (!latest) {
-
         return;
-
     }
 
-
     const t =
-        translations[
-            currentLanguage
-        ];
-
+        translations[currentLanguage];
 
     document.getElementById(
         "latestVersion"
@@ -907,13 +760,10 @@ function updateLatestVersion() {
         ) +
 
         "</span>";
-
 }
 
 
-/* =========================
-   WCZYTYWANIE JSON
-========================= */
+/* WCZYTYWANIE RELEASES.JSON */
 
 async function loadReleases() {
 
@@ -925,7 +775,6 @@ async function loadReleases() {
                 Date.now()
             );
 
-
         if (!response.ok) {
 
             throw new Error(
@@ -934,10 +783,8 @@ async function loadReleases() {
 
         }
 
-
         releasesData =
             await response.json();
-
 
         if (
             !Array.isArray(
@@ -951,10 +798,8 @@ async function loadReleases() {
 
         }
 
-
         const latest =
             getLatestRelease();
-
 
         if (latest) {
 
@@ -963,27 +808,21 @@ async function loadReleases() {
             ).href =
                 latest.installer;
 
-
             document.getElementById(
                 "mainSource"
             ).href =
                 latest.source;
 
-
             updateLatestVersion();
-
         }
-
 
         displayReleases();
 
     }
 
-
     catch (error) {
 
         console.error(error);
-
 
         document.getElementById(
             "releases"
@@ -996,15 +835,11 @@ async function loadReleases() {
             ].noReleases +
 
             "</div>";
-
     }
-
 }
 
 
-/* =========================
-   RELEASES
-========================= */
+/* WYŚWIETLANIE RELEASES */
 
 function displayReleases() {
 
@@ -1013,15 +848,12 @@ function displayReleases() {
             "releases"
         );
 
-
     const t =
         translations[
             currentLanguage
         ];
 
-
     container.innerHTML = "";
-
 
     if (!releasesData.length) {
 
@@ -1034,13 +866,8 @@ function displayReleases() {
             "</div>";
 
         return;
-
     }
 
-
-    /*
-        SORTOWANIE
-    */
 
     let sorted =
         [...releasesData].sort(
@@ -1067,31 +894,25 @@ function displayReleases() {
     }
 
 
-    /*
-        NAJSTARSZA
-    */
-
-    const oldest =
+    const allSorted =
         [...releasesData].sort(
             (a, b) =>
                 compareVersions(
                     a.version,
                     b.version
                 )
-        )[0];
+        );
 
 
-    /*
-        NAJNOWSZA
-    */
+    const oldest =
+        allSorted[0];
+
 
     const newest =
-        getLatestRelease();
+        allSorted[
+            allSorted.length - 1
+        ];
 
-
-    /*
-        WYŚWIETLANIE
-    */
 
     sorted.forEach(
         release => {
@@ -1100,7 +921,6 @@ function displayReleases() {
                 document.createElement(
                     "div"
                 );
-
 
             div.className =
                 "release";
@@ -1122,7 +942,6 @@ function displayReleases() {
                     t.oldest +
 
                     "</div>";
-
             }
 
 
@@ -1139,7 +958,6 @@ function displayReleases() {
                     t.latest +
 
                     "</div>";
-
             }
 
 
@@ -1206,7 +1024,6 @@ function displayReleases() {
                     </a>
 
                 </div>
-
             `;
 
 
@@ -1216,13 +1033,10 @@ function displayReleases() {
 
         }
     );
-
 }
 
 
-/* =========================
-   BEZPIECZEŃSTWO TEKSTU
-========================= */
+/* ZABEZPIECZENIE TEKSTU */
 
 function escapeHTML(text) {
 
@@ -1252,7 +1066,6 @@ function escapeHTML(text) {
             "'",
             "&#039;"
         );
-
 }
 
 
@@ -1263,13 +1076,10 @@ function escapeAttribute(text) {
             '"',
             "%22"
         );
-
 }
 
 
-/* =========================
-   START
-========================= */
+/* START */
 
 changeLanguage("pl");
 
