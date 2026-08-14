@@ -1,16 +1,17 @@
+Copyright (c) 2026 Morsiu_PL
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (“the Software”), to use,
 copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
 the Software, and to permit persons to whom the Software is furnished to do
 so, subject to the following conditions:
 
-This license applies to AVRDUDE Calculator and all versions created by
-Morsiu_PL unless otherwise stated.
-
-1. Attribution
-   Any copy, distribution, or modification of the Software must include a
-   clear notice that the original project is “AVRDUDE Calculator by Morsiu_PL”.
-   The author’s name may not be removed from credits or documentation.
+1. Copyright and Attribution
+   The copyright notice above must remain included in all copies, distributions,
+   forks, or substantial portions of the Software. It may not be removed,
+   altered, hidden, or replaced. Any copy, distribution, or modification must
+   include a clear notice that the original project is “AVRDUDE Calculator
+   by Morsiu_PL”.
 
 2. Fork and Modification Disclosure
    If someone wants to publicly release their own version of the Software,
@@ -46,8 +47,8 @@ Morsiu_PL unless otherwise stated.
 
 6. Liability and Warranty
    The Software is provided “as is”, without warranty of any kind, express or
-   implied. The author is not liable for any damages, losses, or claims
-   arising from the use of the Software.
+   implied. The author is not liable for any damages, losses, or claims arising
+   from the use of the Software.
 
 By using, copying, modifying, or distributing this Software, you agree to the
 terms above.
