@@ -90,6 +90,20 @@
             font-size: 17px;
         }
 
+        .domain-notice {
+            margin-top: 18px;
+            padding: 14px 18px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: #111318;
+            color: #aaa;
+            line-height: 1.5;
+        }
+
+        .domain-notice strong {
+            color: white;
+        }
+
         .latest-version {
             margin-top: 18px;
             color: #aaa;
@@ -142,6 +156,15 @@
             border-radius: 14px;
             padding: 22px;
             margin-top: 16px;
+        }
+
+        .oldest {
+            display: inline-block;
+            color: #aaa;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-right: 8px;
         }
 
         .latest {
@@ -277,9 +300,22 @@
             </p>
 
 
-            <div class="main-buttons">
+            <!-- INFORMACJA O DOMENIE -->
 
-                <!-- NAJNOWSZY INSTALATOR -->
+            <div
+                class="domain-notice"
+                id="domainNotice">
+
+                Wkrótce strona zostanie przeniesiona
+                na nową domenę:
+                <strong>avrdudecalculator.pl</strong>
+
+            </div>
+
+
+            <!-- PRZYCISKI -->
+
+            <div class="main-buttons">
 
                 <a
                     id="mainDownload"
@@ -292,8 +328,6 @@
 
                 </a>
 
-
-                <!-- NAJNOWSZY KOD ŹRÓDŁOWY -->
 
                 <a
                     id="mainSource"
@@ -309,7 +343,7 @@
             </div>
 
 
-            <!-- NUMER NAJNOWSZEJ WERSJI -->
+            <!-- NAJNOWSZA WERSJA -->
 
             <div
                 class="latest-version"
@@ -342,11 +376,8 @@
 
 
     <footer>
-
         AVRDUDE Calculator © 2026
-
     </footer>
-
 
 
 <script>
@@ -373,6 +404,9 @@ const translations = {
         aboutText:
             "AVRDUDE Calculator to program pomocniczy do pracy z AVRDUDE oraz Arduino CLI.",
 
+        domainNotice:
+            "Wkrótce strona zostanie przeniesiona na nową domenę: avrdudecalculator.pl",
+
         downloadLatest:
             "Pobierz najnowszą wersję",
 
@@ -384,6 +418,9 @@ const translations = {
 
         releasesTitle:
             "Releases",
+
+        oldest:
+            "NAJSTARSZA WERSJA",
 
         latest:
             "NAJNOWSZA WERSJA",
@@ -417,6 +454,9 @@ const translations = {
         aboutText:
             "AVRDUDE Calculator is a utility program for working with AVRDUDE and Arduino CLI.",
 
+        domainNotice:
+            "The website will soon be moved to the new domain: avrdudecalculator.pl",
+
         downloadLatest:
             "Download latest version",
 
@@ -428,6 +468,9 @@ const translations = {
 
         releasesTitle:
             "Releases",
+
+        oldest:
+            "OLDEST VERSION",
 
         latest:
             "LATEST VERSION",
@@ -453,6 +496,90 @@ const translations = {
 
 
 /*
+    PORÓWNYWANIE WERSJI
+*/
+
+function compareVersions(a, b) {
+
+    const partsA =
+        String(a)
+            .replace(/^v/i, "")
+            .split(".")
+            .map(
+                x => parseInt(x) || 0
+            );
+
+    const partsB =
+        String(b)
+            .replace(/^v/i, "")
+            .split(".")
+            .map(
+                x => parseInt(x) || 0
+            );
+
+
+    const length =
+        Math.max(
+            partsA.length,
+            partsB.length
+        );
+
+
+    for (
+        let i = 0;
+        i < length;
+        i++
+    ) {
+
+        const numberA =
+            partsA[i] || 0;
+
+        const numberB =
+            partsB[i] || 0;
+
+
+        if (
+            numberA !== numberB
+        ) {
+
+            return numberA - numberB;
+
+        }
+
+    }
+
+    return 0;
+}
+
+
+/*
+    NAJNOWSZA WERSJA
+*/
+
+function getLatestRelease() {
+
+    if (!releasesData.length) {
+        return null;
+    }
+
+
+    const sorted =
+        [...releasesData].sort(
+            (a, b) =>
+                compareVersions(
+                    a.version,
+                    b.version
+                )
+        );
+
+
+    return sorted[
+        sorted.length - 1
+    ];
+}
+
+
+/*
     ZMIANA JĘZYKA
 */
 
@@ -462,6 +589,7 @@ function changeLanguage(language) {
 
     const t =
         translations[language];
+
 
     document.documentElement.lang =
         language;
@@ -483,6 +611,25 @@ function changeLanguage(language) {
         "aboutText"
     ).textContent =
         t.aboutText;
+
+
+    /*
+        INFORMACJA O DOMENIE
+    */
+
+    const domainText =
+        escapeHTML(
+            t.domainNotice
+        ).replace(
+            "avrdudecalculator.pl",
+            "<strong>avrdudecalculator.pl</strong>"
+        );
+
+
+    document.getElementById(
+        "domainNotice"
+    ).innerHTML =
+        domainText;
 
 
     document.getElementById(
@@ -522,7 +669,6 @@ function changeLanguage(language) {
     updateLatestVersion();
 
     displayReleases();
-
 }
 
 
@@ -532,19 +678,20 @@ function changeLanguage(language) {
 
 function updateLatestVersion() {
 
-    if (!releasesData.length) {
+    const latest =
+        getLatestRelease();
+
+
+    if (!latest) {
         return;
     }
 
-    const latest =
-        releasesData[
-            releasesData.length - 1
-        ];
 
     const t =
         translations[
             currentLanguage
         ];
+
 
     document.getElementById(
         "latestVersion"
@@ -554,19 +701,18 @@ function updateLatestVersion() {
             t.latestVersion
         ) +
 
-        ': <span>' +
+        ": <span>" +
 
         escapeHTML(
             latest.version
         ) +
 
-        '</span>';
-
+        "</span>";
 }
 
 
 /*
-    ŁADOWANIE RELEASES.JSON
+    WCZYTYWANIE JSON
 */
 
 async function loadReleases() {
@@ -593,21 +739,31 @@ async function loadReleases() {
             await response.json();
 
 
+        if (
+            !Array.isArray(
+                releasesData
+            )
+        ) {
+
+            throw new Error(
+                "releases.json musi zawierać tablicę"
+            );
+
+        }
+
+
         /*
-            OSTATNI ELEMENT JSON-A
-            = NAJNOWSZA WERSJA
+            NAJNOWSZY RELEASE
         */
 
-        if (releasesData.length > 0) {
+        const latest =
+            getLatestRelease();
 
-            const latest =
-                releasesData[
-                    releasesData.length - 1
-                ];
 
+        if (latest) {
 
             /*
-                NAJNOWSZY INSTALATOR
+                INSTALATOR
             */
 
             document.getElementById(
@@ -617,7 +773,7 @@ async function loadReleases() {
 
 
             /*
-                NAJNOWSZY KOD ŹRÓDŁOWY
+                KOD ŹRÓDŁOWY
             */
 
             document.getElementById(
@@ -627,7 +783,7 @@ async function loadReleases() {
 
 
             /*
-                NUMER WERSJI
+                WERSJA
             */
 
             updateLatestVersion();
@@ -639,9 +795,11 @@ async function loadReleases() {
 
     }
 
+
     catch (error) {
 
         console.error(error);
+
 
         document.getElementById(
             "releases"
@@ -653,10 +811,9 @@ async function loadReleases() {
                 currentLanguage
             ].noReleases +
 
-            '</div>';
+            "</div>";
 
     }
-
 }
 
 
@@ -681,7 +838,9 @@ function displayReleases() {
     container.innerHTML = "";
 
 
-    if (!releasesData.length) {
+    if (
+        !releasesData.length
+    ) {
 
         container.innerHTML =
 
@@ -689,14 +848,31 @@ function displayReleases() {
 
             t.noReleases +
 
-            '</div>';
+            "</div>";
 
         return;
-
     }
 
 
-    releasesData.forEach(
+    /*
+        SORTOWANIE:
+
+        NAJSTARSZA
+        ↓
+        NAJNOWSZA
+    */
+
+    const sortedReleases =
+        [...releasesData].sort(
+            (a, b) =>
+                compareVersions(
+                    a.version,
+                    b.version
+                )
+        );
+
+
+    sortedReleases.forEach(
         (release, index) => {
 
             const div =
@@ -709,32 +885,50 @@ function displayReleases() {
                 "release";
 
 
+            let labels = "";
+
+
             /*
-                OSTATNI ELEMENT
-                = NAJNOWSZA WERSJA
+                NAJSTARSZA
             */
 
-            let latest = "";
-
-
             if (
-                index ===
-                releasesData.length - 1
+                index === 0
             ) {
 
-                latest =
+                labels +=
 
-                    '<div class="latest">' +
+                    '<div class="oldest">' +
 
-                    t.latest +
+                    t.oldest +
 
-                    '</div>';
+                    "</div>";
 
             }
 
 
             /*
-                OPIS
+                NAJNOWSZA
+            */
+
+            if (
+                index ===
+                sortedReleases.length - 1
+            ) {
+
+                labels +=
+
+                    '<div class="latest">' +
+
+                    t.latest +
+
+                    "</div>";
+
+            }
+
+
+            /*
+                OPIS W JĘZYKU
             */
 
             const description =
@@ -746,23 +940,16 @@ function displayReleases() {
                     : release.description_en;
 
 
-            /*
-                RELEASE
-            */
-
             div.innerHTML = `
 
-                ${latest}
+                ${labels}
 
                 <h3>
-
                     AVRDUDE Calculator
                     ${escapeHTML(
                         release.version
                     )}
-
                 </h3>
-
 
                 <div class="date">
 
@@ -774,18 +961,15 @@ function displayReleases() {
 
                 </div>
 
-
                 <div class="release-description">
 
                     ${escapeHTML(
-                        description
+                        description || ""
                     )}
 
                 </div>
 
-
                 <div class="release-buttons">
-
 
                     <a
                         href="${escapeAttribute(
@@ -798,7 +982,6 @@ function displayReleases() {
 
                     </a>
 
-
                     <a
                         href="${escapeAttribute(
                             release.source
@@ -810,9 +993,7 @@ function displayReleases() {
 
                     </a>
 
-
                 </div>
-
             `;
 
 
@@ -822,7 +1003,6 @@ function displayReleases() {
 
         }
     );
-
 }
 
 
@@ -858,7 +1038,6 @@ function escapeHTML(text) {
             "'",
             "&#039;"
         );
-
 }
 
 
@@ -873,7 +1052,6 @@ function escapeAttribute(text) {
             '"',
             "%22"
         );
-
 }
 
 
