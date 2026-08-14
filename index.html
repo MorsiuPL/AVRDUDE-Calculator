@@ -7,6 +7,7 @@
     <title>AVRDUDE Calculator</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -38,6 +39,8 @@
             font-size: 19px;
         }
 
+        /* JĘZYK */
+
         .language {
             position: fixed;
             top: 20px;
@@ -63,6 +66,8 @@
             background: white;
             color: #111;
         }
+
+        /* GŁÓWNY KONTENER */
 
         .container {
             max-width: 900px;
@@ -90,6 +95,8 @@
             font-size: 17px;
         }
 
+        /* INFORMACJA O DOMENIE */
+
         .domain-notice {
             margin-top: 18px;
             padding: 14px 18px;
@@ -104,19 +111,28 @@
             color: white;
         }
 
-        .latest-version {
-            margin-top: 18px;
-            color: #aaa;
-            font-size: 16px;
+        /* ZDJĘCIE */
+
+        .screenshot {
+            margin-top: 25px;
+            text-align: center;
         }
 
-        .latest-version span {
-            color: white;
-            font-weight: bold;
+        .screenshot img {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            display: block;
+            margin: auto;
+            border-radius: 12px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
+
+        /* PRZYCISKI */
 
         .main-buttons {
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         .download-main,
@@ -149,6 +165,46 @@
         .source-main:hover {
             background: #22252c;
         }
+
+        /* NAJNOWSZA WERSJA */
+
+        .latest-version {
+            margin-top: 18px;
+            color: #aaa;
+            font-size: 16px;
+        }
+
+        .latest-version span {
+            color: white;
+            font-weight: bold;
+        }
+
+        /* SORTOWANIE */
+
+        .sort-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            color: #aaa;
+        }
+
+        .sort-controls select {
+            background: #111318;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 9px 12px;
+            cursor: pointer;
+        }
+
+        .sort-controls select:focus {
+            outline: none;
+            border-color: #777;
+        }
+
+        /* RELEASE */
 
         .release {
             background: #111318;
@@ -214,11 +270,15 @@
             color: #888;
         }
 
+        /* STOPKA */
+
         footer {
             text-align: center;
             color: #777;
             padding: 40px 20px;
         }
+
+        /* TELEFON */
 
         @media (max-width: 650px) {
 
@@ -237,26 +297,42 @@
                 margin: 10px 0 0;
                 text-align: center;
             }
+
+            .sort-controls {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .sort-controls select {
+                width: 100%;
+            }
+
         }
+
     </style>
 </head>
 
 <body>
 
-    <!-- JĘZYK -->
+
+    <!-- WYBÓR JĘZYKA -->
 
     <div class="language">
 
         <button
             id="plButton"
             onclick="changeLanguage('pl')">
+
             PL
+
         </button>
 
         <button
             id="enButton"
             onclick="changeLanguage('en')">
+
             EN
+
         </button>
 
     </div>
@@ -273,7 +349,9 @@
         <div
             class="subtitle"
             id="subtitle">
+
             Narzędzia dla AVRDUDE i Arduino CLI
+
         </div>
 
     </header>
@@ -290,6 +368,7 @@
                 O programie
             </h2>
 
+
             <p
                 class="description"
                 id="aboutText">
@@ -300,7 +379,7 @@
             </p>
 
 
-            <!-- INFORMACJA O DOMENIE -->
+            <!-- INFORMACJA O NOWEJ DOMENIE -->
 
             <div
                 class="domain-notice"
@@ -309,6 +388,17 @@
                 Wkrótce strona zostanie przeniesiona
                 na nową domenę:
                 <strong>avrdudecalculator.pl</strong>
+
+            </div>
+
+
+            <!-- ZDJĘCIE PROGRAMU -->
+
+            <div class="screenshot">
+
+                <img
+                    src="Zrzut%20ekranu%202026-08-14%20121513.png"
+                    alt="Zrzut ekranu AVRDUDE Calculator">
 
             </div>
 
@@ -343,7 +433,7 @@
             </div>
 
 
-            <!-- NAJNOWSZA WERSJA -->
+            <!-- NUMER NAJNOWSZEJ WERSJI -->
 
             <div
                 class="latest-version"
@@ -364,6 +454,39 @@
                 Releases
             </h2>
 
+
+            <!-- SORTOWANIE -->
+
+            <div class="sort-controls">
+
+                <label
+                    for="sortOrder"
+                    id="sortLabel">
+
+                    Sortowanie:
+
+                </label>
+
+
+                <select
+                    id="sortOrder"
+                    onchange="displayReleases()">
+
+                    <option value="oldest">
+                        Od najstarszej do najnowszej
+                    </option>
+
+                    <option value="newest">
+                        Od najnowszej do najstarszej
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LISTA RELEASES -->
+
             <div id="releases">
 
                 Ładowanie wersji...
@@ -376,11 +499,14 @@
 
 
     <footer>
+
         AVRDUDE Calculator © 2026
+
     </footer>
 
 
 <script>
+
 
 let currentLanguage = "pl";
 
@@ -418,6 +544,15 @@ const translations = {
 
         releasesTitle:
             "Releases",
+
+        sortLabel:
+            "Sortowanie:",
+
+        oldestToNewest:
+            "Od najstarszej do najnowszej",
+
+        newestToOldest:
+            "Od najnowszej do najstarszej",
 
         oldest:
             "NAJSTARSZA WERSJA",
@@ -469,6 +604,15 @@ const translations = {
         releasesTitle:
             "Releases",
 
+        sortLabel:
+            "Sort by:",
+
+        oldestToNewest:
+            "Oldest to newest",
+
+        newestToOldest:
+            "Newest to oldest",
+
         oldest:
             "OLDEST VERSION",
 
@@ -509,6 +653,7 @@ function compareVersions(a, b) {
                 x => parseInt(x) || 0
             );
 
+
     const partsB =
         String(b)
             .replace(/^v/i, "")
@@ -548,18 +693,24 @@ function compareVersions(a, b) {
 
     }
 
+
     return 0;
+
 }
 
 
 /*
-    NAJNOWSZA WERSJA
+    ZNAJDOWANIE NAJNOWSZEJ WERSJI
 */
 
 function getLatestRelease() {
 
-    if (!releasesData.length) {
+    if (
+        !releasesData.length
+    ) {
+
         return null;
+
     }
 
 
@@ -576,6 +727,7 @@ function getLatestRelease() {
     return sorted[
         sorted.length - 1
     ];
+
 }
 
 
@@ -585,10 +737,14 @@ function getLatestRelease() {
 
 function changeLanguage(language) {
 
-    currentLanguage = language;
+    currentLanguage =
+        language;
+
 
     const t =
-        translations[language];
+        translations[
+            language
+        ];
 
 
     document.documentElement.lang =
@@ -632,6 +788,10 @@ function changeLanguage(language) {
         domainText;
 
 
+    /*
+        PRZYCISKI
+    */
+
     document.getElementById(
         "mainDownload"
     ).textContent =
@@ -644,11 +804,37 @@ function changeLanguage(language) {
         t.downloadSourceLatest;
 
 
+    /*
+        RELEASES
+    */
+
     document.getElementById(
         "releasesTitle"
     ).textContent =
         t.releasesTitle;
 
+
+    document.getElementById(
+        "sortLabel"
+    ).textContent =
+        t.sortLabel;
+
+
+    document.querySelector(
+        '#sortOrder option[value="oldest"]'
+    ).textContent =
+        t.oldestToNewest;
+
+
+    document.querySelector(
+        '#sortOrder option[value="newest"]'
+    ).textContent =
+        t.newestToOldest;
+
+
+    /*
+        PRZYCISKI JĘZYKA
+    */
 
     document.getElementById(
         "plButton"
@@ -669,11 +855,12 @@ function changeLanguage(language) {
     updateLatestVersion();
 
     displayReleases();
+
 }
 
 
 /*
-    AKTUALIZACJA NUMERU WERSJI
+    AKTUALIZACJA NAJNOWSZEJ WERSJI
 */
 
 function updateLatestVersion() {
@@ -683,7 +870,9 @@ function updateLatestVersion() {
 
 
     if (!latest) {
+
         return;
+
     }
 
 
@@ -708,11 +897,12 @@ function updateLatestVersion() {
         ) +
 
         "</span>";
+
 }
 
 
 /*
-    WCZYTYWANIE JSON
+    WCZYTYWANIE RELEASES.JSON
 */
 
 async function loadReleases() {
@@ -783,7 +973,7 @@ async function loadReleases() {
 
 
             /*
-                WERSJA
+                NUMER WERSJI
             */
 
             updateLatestVersion();
@@ -814,6 +1004,7 @@ async function loadReleases() {
             "</div>";
 
     }
+
 }
 
 
@@ -851,18 +1042,15 @@ function displayReleases() {
             "</div>";
 
         return;
+
     }
 
 
     /*
-        SORTOWANIE:
-
-        NAJSTARSZA
-        ↓
-        NAJNOWSZA
+        SORTOWANIE WERSJI
     */
 
-    const sortedReleases =
+    let sortedReleases =
         [...releasesData].sort(
             (a, b) =>
                 compareVersions(
@@ -872,8 +1060,32 @@ function displayReleases() {
         );
 
 
+    /*
+        JEŚLI WYBRANO:
+        NAJNOWSZE → NAJSTARSZE
+    */
+
+    const sortOrder =
+        document.getElementById(
+            "sortOrder"
+        ).value;
+
+
+    if (
+        sortOrder === "newest"
+    ) {
+
+        sortedReleases.reverse();
+
+    }
+
+
+    /*
+        WYŚWIETLANIE
+    */
+
     sortedReleases.forEach(
-        (release, index) => {
+        (release) => {
 
             const div =
                 document.createElement(
@@ -885,6 +1097,26 @@ function displayReleases() {
                 "release";
 
 
+            /*
+                SPRAWDZENIE PRAWDZIWEJ
+                NAJSTARSZEJ I NAJNOWSZEJ
+                WERSJI
+            */
+
+            const oldestRelease =
+                [...releasesData].sort(
+                    (a, b) =>
+                        compareVersions(
+                            a.version,
+                            b.version
+                        )
+                )[0];
+
+
+            const newestRelease =
+                getLatestRelease();
+
+
             let labels = "";
 
 
@@ -893,7 +1125,8 @@ function displayReleases() {
             */
 
             if (
-                index === 0
+                release.version ===
+                oldestRelease.version
             ) {
 
                 labels +=
@@ -912,8 +1145,9 @@ function displayReleases() {
             */
 
             if (
-                index ===
-                sortedReleases.length - 1
+                newestRelease &&
+                release.version ===
+                newestRelease.version
             ) {
 
                 labels +=
@@ -928,7 +1162,7 @@ function displayReleases() {
 
 
             /*
-                OPIS W JĘZYKU
+                OPIS
             */
 
             const description =
@@ -940,16 +1174,23 @@ function displayReleases() {
                     : release.description_en;
 
 
+            /*
+                HTML RELEASE
+            */
+
             div.innerHTML = `
 
                 ${labels}
 
                 <h3>
+
                     AVRDUDE Calculator
                     ${escapeHTML(
                         release.version
                     )}
+
                 </h3>
+
 
                 <div class="date">
 
@@ -961,6 +1202,7 @@ function displayReleases() {
 
                 </div>
 
+
                 <div class="release-description">
 
                     ${escapeHTML(
@@ -968,6 +1210,7 @@ function displayReleases() {
                     )}
 
                 </div>
+
 
                 <div class="release-buttons">
 
@@ -982,6 +1225,7 @@ function displayReleases() {
 
                     </a>
 
+
                     <a
                         href="${escapeAttribute(
                             release.source
@@ -994,6 +1238,7 @@ function displayReleases() {
                     </a>
 
                 </div>
+
             `;
 
 
@@ -1003,6 +1248,7 @@ function displayReleases() {
 
         }
     );
+
 }
 
 
@@ -1038,6 +1284,7 @@ function escapeHTML(text) {
             "'",
             "&#039;"
         );
+
 }
 
 
@@ -1052,11 +1299,12 @@ function escapeAttribute(text) {
             '"',
             "%22"
         );
+
 }
 
 
 /*
-    START
+    START STRONY
 */
 
 changeLanguage("pl");
