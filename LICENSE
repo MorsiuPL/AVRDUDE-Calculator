@@ -1,21 +1,53 @@
-MIT License
-
-Copyright (c) 2026 MorsiuPL
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "AVRDUDE Calculator"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+of this software and associated documentation files (“the Software”), to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This license applies to AVRDUDE Calculator and all versions created by
+Morsiu_PL unless otherwise stated.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+1. Attribution
+   Any copy, distribution, or modification of the Software must include a
+   clear notice that the original project is “AVRDUDE Calculator by Morsiu_PL”.
+   The author’s name may not be removed from credits or documentation.
+
+2. Fork and Modification Disclosure
+   If someone wants to publicly release their own version of the Software,
+   they must clearly state that it is a modified version and must specify the
+   original version it was based on. A visible notice such as:
+
+   “This is a modified version (fork) of AVRDUDE Calculator by Morsiu_PL,
+    originally based on version X.Y.Z.”
+
+   must appear in release notes, documentation, about dialogs, or any public
+   distribution channel where the modified version is made available.
+
+   Private, personal, or non-public use of modified versions does not require
+   any disclosure, version notice, or attribution beyond the standard MIT
+   requirements.
+
+3. Branding Protection
+   The name “AVRDUDE Calculator”, the domain “avrdudecalculator.pl”, and any
+   associated branding may not be used to promote modified versions without
+   explicit permission from the author. Forks must use a different name unless
+   permission is granted.
+
+4. Visual Assets
+   All icons, graphics, and visual elements included in the Software are
+   copyrighted by Morsiu_PL. They may be used or modified only as part of the
+   Software. Using them separately in other projects requires explicit
+   permission.
+
+5. Distribution of Modified Versions
+   Modified versions must not imply endorsement by the original author. Any
+   changes must be clearly documented. The original author’s name must remain
+   visible in credits.
+
+6. Liability and Warranty
+   The Software is provided “as is”, without warranty of any kind, express or
+   implied. The author is not liable for any damages, losses, or claims
+   arising from the use of the Software.
+
+By using, copying, modifying, or distributing this Software, you agree to the
+terms above.
